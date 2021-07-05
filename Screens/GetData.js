@@ -4,8 +4,12 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Icon2 from 'react-native-vector-icons/FontAwesome';
 import { Text, View, Image, Pressable, TextInput ,StatusBar} from 'react-native';
 import styles from '../Styles'
+import ActionSheet from "react-native-actions-sheet";
+import axios from "axios";
 import RNDateTimePicker from '@react-native-community/datetimepicker'
+import { Color } from '../Constants';
 const Icon1 = require("../assets/akar-icons_coin.jpg")
+const actionSheetRef = createRef();
 const GetData = ({navigation}) => {
   const [Coins, setCoins] = useState(0);
   const [date1, setDate1] = useState(new Date());
@@ -13,38 +17,24 @@ const GetData = ({navigation}) => {
   const [mode, setMode] = useState('date');
   const [show1, setShow1] = useState(false);
   const [show2, setShow2] = useState(false);
-  const [data, setData] = useState([]);
-  const [isLoading, setLoading] = useState(true);
-  console.log(data)
-
-  const fetch=()=>{
-    const rp = require('request-promise');
-    const requestOptions = {
-      method: 'GET',
-      uri: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
-      qs: {
-        'start': '1',
-        'limit': '5000',
-        'convert': 'USD'
-      },
-      headers: {
-        'X-CMC_PRO_API_KEY': 'b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c'
-      },
-      json: true,
-      gzip: true
-    };
-    
-    rp(requestOptions).then(response => {
-      console.log('API call response:', response);
-    }).catch((err) => {
-      console.log('API call error:', err.message);
-    });
-  }
-  useEffect(() => {
-fetch();
-  }, []);
-
-
+  
+// const fetch=async()=>{
+//   const options = {
+//     method: 'GET',
+//     url: 'https://coingecko.p.rapidapi.com/coins/list',
+//     headers: {'x-rapidapi-host': 'coingecko.p.rapidapi.com'}
+//   };
+  
+//   await axios.request(options).then(function (response) {
+//     console.log(response.data);
+//   }).catch(function (error) {
+//     console.error(error);
+//   });
+// }
+//   useEffect (() => {
+// fetch();
+//   }, [])
+  
 
 
   const onChange = (event, selectedDate) => {
@@ -72,7 +62,16 @@ fetch();
   const showDatepicker2 = () => {
     showMode2('date');
   };
-
+const coinValidation=()=>{
+  if(Coins!==0)
+  {
+    setCoins(Coins-1);
+  }
+  else{
+    alert("Sorry Can't be negative");
+    setCoins(0);
+  }
+}
   return (
 
     <View  style={styles.container}>
@@ -83,7 +82,7 @@ fetch();
       </View>
       <View style={{ borderWidth: 3, height: 4, width: ("28%"), borderRadius: 30, position: "absolute", top: ("11.4%"), left: ("29%") }} />
       <View style={styles.container__Inside2}>
-        <Pressable android_ripple={{ color: "#7C7C83", radius: 200, borderless: false }} style={styles.boxes} onPress={() => console.log("pressed")}>
+        <Pressable android_ripple={{ color: "#7C7C83", radius: 200, borderless: false }} style={styles.boxes} onPress={() => actionSheetRef.current?.show()}>
           <View style={styles.Inside__Box}>
           <Icon name="coins" size={24} color="#fff" style={{marginRight:7}}  />
             <Text style={styles.Text}>Select CryptoCurrency</Text>
@@ -92,7 +91,7 @@ fetch();
 
         <View style={styles.boxes}>
           <View style={styles.Inside__Box}>
-            <Pressable android_ripple={{ color: "#7C7C83", radius: 25, borderless: true }}  onPress={() => setCoins(Coins-1)} >
+            <Pressable android_ripple={{ color: "#7C7C83", radius: 25, borderless: true }}  onPress={() => coinValidation()} >
           <Icon2 name="minus-circle" size={36} color="#fff" style={{marginRight:7}}/>
           </Pressable>
           <Text   style={[styles.Text,{textAlign:"center"}]}>{Coins}</Text>
@@ -158,6 +157,24 @@ fetch();
           </View>
         </Pressable>
       </View>
+      <ActionSheet ref={actionSheetRef} gestureEnabled={true} containerStyle={{borderTopLeftRadius:20,borderTopRightRadius:20}}>
+        <View style={{height:500,backgroundColor:Color.Primary,borderTopLeftRadius:20,borderTopRightRadius:20,}}>
+          <Pressable android_ripple={{ color: "#c4c4c4", radius: 240, borderless: false }} onPress={() =>console.log("Presse")} >
+          <View style={{flexDirection:"row",alignItems:"center" ,justifyContent:"space-between",paddingHorizontal:20,paddingVertical:10}}>
+         <View style={{flexDirection:"row",alignItems:"center",}}>
+         <Icon name="bitcoin" size={36} color={Color.Secondary} style={{marginLeft:7}}/>
+         <Text style={styles.Text3}>Bitcoin</Text>
+         </View>
+         <View>
+           <Text style={styles.Text3}>
+             $40,000
+           </Text>
+         </View>
+         </View>
+         </Pressable>
+        </View>
+      </ActionSheet>
+
     </View>
   );
 }

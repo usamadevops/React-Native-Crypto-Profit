@@ -52,6 +52,13 @@ const styles = StyleSheet.create({
             width: ('100%'),
             textAlign:"center"
       },
+      Text3: {
+            fontFamily: Font.Font.Medium,
+            fontSize: 16,
+            color: Color.Secondary,
+         marginLeft:10
+            
+      },
       ButtonView: {
             width: ("90%"),
             height: ("7%"),
