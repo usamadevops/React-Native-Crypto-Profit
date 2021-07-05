@@ -1,16 +1,52 @@
 
-import React, { useState,createRef } from 'react';
+import React, { useState,createRef,useEffect } from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon2 from 'react-native-vector-icons/FontAwesome';
 import { Text, View, Image, Pressable, TextInput ,StatusBar} from 'react-native';
 import styles from '../Styles'
 import RNDateTimePicker from '@react-native-community/datetimepicker'
 const Icon1 = require("../assets/akar-icons_coin.jpg")
 const GetData = ({navigation}) => {
-  const [Coins, setCoins] = useState("");
+  const [Coins, setCoins] = useState(0);
   const [date1, setDate1] = useState(new Date());
   const [date2, setDate2] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show1, setShow1] = useState(false);
   const [show2, setShow2] = useState(false);
+  const [data, setData] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  console.log(data)
+
+  const fetch=()=>{
+    const rp = require('request-promise');
+    const requestOptions = {
+      method: 'GET',
+      uri: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
+      qs: {
+        'start': '1',
+        'limit': '5000',
+        'convert': 'USD'
+      },
+      headers: {
+        'X-CMC_PRO_API_KEY': 'b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c'
+      },
+      json: true,
+      gzip: true
+    };
+    
+    rp(requestOptions).then(response => {
+      console.log('API call response:', response);
+    }).catch((err) => {
+      console.log('API call error:', err.message);
+    });
+  }
+  useEffect(() => {
+fetch();
+  }, []);
+
+
+
+
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date1;
     setShow1(Platform.OS === 'ios');
@@ -49,18 +85,28 @@ const GetData = ({navigation}) => {
       <View style={styles.container__Inside2}>
         <Pressable android_ripple={{ color: "#7C7C83", radius: 200, borderless: false }} style={styles.boxes} onPress={() => console.log("pressed")}>
           <View style={styles.Inside__Box}>
+          <Icon name="coins" size={24} color="#fff" style={{marginRight:7}}  />
             <Text style={styles.Text}>Select CryptoCurrency</Text>
           </View>
         </Pressable>
 
         <View style={styles.boxes}>
           <View style={styles.Inside__Box}>
-            <TextInput
+            <Pressable android_ripple={{ color: "#7C7C83", radius: 25, borderless: true }}  onPress={() => setCoins(Coins-1)} >
+          <Icon2 name="minus-circle" size={36} color="#fff" style={{marginRight:7}}/>
+          </Pressable>
+          <Text   style={[styles.Text,{textAlign:"center"}]}>{Coins}</Text>
+            {/* <TextInput
               placeholder="Coins you Have.."
               placeholderTextColor="#7C7C83"
               style={styles.Text}
               keyboardType="numeric"
-            />
+              value={Coins}
+              onChangeText={()=>setCoins(Coins)}
+            />         */}
+            <Pressable  android_ripple={{ color: "#7C7C83", radius: 25, borderless: true }}  onPress={() => setCoins(Coins+1)} >
+          <Icon2 name="plus-circle" size={36} color="#fff" style={{marginLeft:7}}/>
+          </Pressable>
           </View>
         </View>
         <Pressable style={styles.boxes} onPress={showDatepicker1}>

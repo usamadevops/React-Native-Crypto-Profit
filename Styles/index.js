@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
             width: ("90%"),
             backgroundColor: Color.Secondary,
             borderRadius: 5,
+            
             alignItems: "flex-start",
             justifyContent: "center",
             paddingLeft: 20,
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
       },
       Inside__Box: {
             flexDirection: "row",
-            width: ('90%'),
+            width: ('70%'),
             alignItems: "center",
            
             
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
             fontSize: 18,
             color: Color.Primary,
             width: ('100%'),
+       
       },
       Text2: {
             fontFamily: Font.Font.Medium,
