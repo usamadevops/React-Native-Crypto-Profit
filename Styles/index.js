@@ -3,23 +3,29 @@ import { Color, Font } from '../Constants'
 const styles = StyleSheet.create({
       container: {
             flex: 1,
-            backgroundColor: '#fff',
+            backgroundColor:Color.Primary
+       
       },
       container__Inside: {
-            flex: 1,
+            flex: 0.7,
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
+            borderBottomEndRadius:30,
+            borderBottomStartRadius:30,
+            marginBottom:23
       },
       Header: {
             fontFamily: Font.Font.Bold,
-            fontSize: 18
+            fontSize: 24,
+            color:Color.Secondary
       },
       container__Inside2: {
-            flex: 5,
+            flex: 6.5,
             alignItems: "center"
       },
       boxes: {
+          
             height: ("7.96875%"),
             width: ("90%"),
             backgroundColor: Color.Secondary,
@@ -27,7 +33,7 @@ const styles = StyleSheet.create({
             
             alignItems: "flex-start",
             justifyContent: "center",
-            paddingLeft: 20,
+            paddingLeft: 10,
             marginBottom: 10,
            
       },
@@ -35,6 +41,7 @@ const styles = StyleSheet.create({
             flexDirection: "row",
             width: ('70%'),
             alignItems: "center",
+      
            
             
       },
@@ -50,13 +57,15 @@ const styles = StyleSheet.create({
             fontSize: 16,
             color: Color.Primary,
             width: ('100%'),
-            textAlign:"center"
+            paddingLeft:10
       },
       Text3: {
             fontFamily: Font.Font.Medium,
             fontSize: 16,
             color: Color.Secondary,
-         marginLeft:10
+         marginLeft:'5%',
+         marginBottom:10,
+         alignSelf:"flex-start"
             
       },
       ButtonView: {
@@ -74,12 +83,13 @@ const styles = StyleSheet.create({
       },
       ResultBox:{
       backgroundColor:"#fff",
-      width:("90%"),
-      height:('30%'),
-      borderWidth:2,
-      borderColor:"#ffd11d",
+      minWidth:("80%"),
+      minHeight:('23%'),
+      borderWidth:1,
+      borderColor:"#fff1fd",
       elevation:2,
       borderRadius:20,
+      flexDirection:"row",
       justifyContent:"center",
       alignItems:"center",
       marginVertical:40,

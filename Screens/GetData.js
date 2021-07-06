@@ -8,6 +8,7 @@ import ActionSheet from "react-native-actions-sheet";
 import axios from "axios";
 import RNDateTimePicker from '@react-native-community/datetimepicker'
 import { Color } from '../Constants';
+import { KeyboardAwareScrollView } from 'react-native-ui-lib';
 const Icon1 = require("../assets/akar-icons_coin.jpg")
 const actionSheetRef = createRef();
 const GetData = ({navigation}) => {
@@ -17,6 +18,7 @@ const GetData = ({navigation}) => {
   const [mode, setMode] = useState('date');
   const [show1, setShow1] = useState(false);
   const [show2, setShow2] = useState(false);
+  const [Price, setPrice] = useState(' ')
   
 // const fetch=async()=>{
 //   const options = {
@@ -35,7 +37,15 @@ const GetData = ({navigation}) => {
 // fetch();
 //   }, [])
   
+const Calculate=()=>{
 
+  var Result;
+  Result=Price*Coins;
+  console.log(Result)
+  setCoins(0)
+  setPrice('')
+  navigation.navigate("SetResult",{Result})
+}
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date1;
@@ -74,25 +84,27 @@ const coinValidation=()=>{
 }
   return (
 
-    <View  style={styles.container}>
+      <View style={styles.container}>
+
       <StatusBar hidden={true}/>
       <View style={styles.container__Inside}>
-        <Image source={Icon1} width={24} height={24} />
         <Text style={styles.Header}>Crypto Profit Converter</Text>
       </View>
-      <View style={{ borderWidth: 3, height: 4, width: ("28%"), borderRadius: 30, position: "absolute", top: ("11.4%"), left: ("29%") }} />
+      
       <View style={styles.container__Inside2}>
+        <Text style={styles.Text3}>Select CryptoCurrency</Text>
         <Pressable android_ripple={{ color: "#7C7C83", radius: 200, borderless: false }} style={styles.boxes} onPress={() => actionSheetRef.current?.show()}>
           <View style={styles.Inside__Box}>
           <Icon name="coins" size={24} color="#fff" style={{marginRight:7}}  />
             <Text style={styles.Text}>Select CryptoCurrency</Text>
           </View>
         </Pressable>
-
+        <Text style={styles.Text3}>How Much Coin do You Own?</Text>
         <View style={styles.boxes}>
+          
           <View style={styles.Inside__Box}>
             <Pressable android_ripple={{ color: "#7C7C83", radius: 25, borderless: true }}  onPress={() => coinValidation()} >
-          <Icon2 name="minus-circle" size={36} color="#fff" style={{marginRight:7}}/>
+          <Icon2 name="minus-circle" size={50} color="#fff" />
           </Pressable>
           <Text   style={[styles.Text,{textAlign:"center"}]}>{Coins}</Text>
             {/* <TextInput
@@ -104,10 +116,11 @@ const coinValidation=()=>{
               onChangeText={()=>setCoins(Coins)}
             />         */}
             <Pressable  android_ripple={{ color: "#7C7C83", radius: 25, borderless: true }}  onPress={() => setCoins(Coins+1)} >
-          <Icon2 name="plus-circle" size={36} color="#fff" style={{marginLeft:7}}/>
+          <Icon2 name="plus-circle" size={50} color="#fff" style={{marginLeft:15}}/>
           </Pressable>
           </View>
         </View>
+        <Text style={styles.Text3}>When you Bought the Coins?</Text>
         <Pressable style={styles.boxes} onPress={showDatepicker1}>
           <View style={styles.Inside__Box}>
             <Text style={styles.Text}>{date1.getDate()}-{date1.getMonth()}-{date1.getFullYear()}</Text>
@@ -123,7 +136,7 @@ const coinValidation=()=>{
             )}
           </View>
         </Pressable>
-
+        <Text style={styles.Text3}>When are you selling the Coins?</Text>
         <Pressable style={styles.boxes} onPress={showDatepicker2}>
           <View style={styles.Inside__Box}>
             <Text style={styles.Text}>{date2.getDate()}-{date2.getMonth()}-{date2.getFullYear()}</Text>
@@ -139,24 +152,28 @@ const coinValidation=()=>{
             )}
           </View>
         </Pressable>
-
-        <View style={styles.boxes}>
+        <Text style={styles.Text3}>At what price you wish to Sell?</Text>
+      <View style={styles.boxes}>
           <View style={styles.Inside__Box}>
+        <KeyboardAwareScrollView >
             <TextInput
               placeholder="Your Selling Price"
               placeholderTextColor="#7C7C83"
               style={styles.Text}
               keyboardType="numeric"
+              value={Price}
+              onChangeText={(Price)=>setPrice(Price)}
             />
+        </KeyboardAwareScrollView>
           </View>
         </View>
-
-        <Pressable android_ripple={{ color: "#c4c4c4", radius: 200, borderless: false }} style={styles.ButtonView} onPress={() =>navigation.navigate("SetResult")}>
+        <Pressable android_ripple={{ color: "#c4c4c4", radius: 200, borderless: false }} style={styles.ButtonView} onPress={() =>Calculate()}>
           <View style={styles.Button}>
             <Text style={styles.Text}>Calculate Your Profit</Text>
           </View>
         </Pressable>
       </View>
+
       <ActionSheet ref={actionSheetRef} gestureEnabled={true} containerStyle={{borderTopLeftRadius:20,borderTopRightRadius:20}}>
         <View style={{height:500,backgroundColor:Color.Primary,borderTopLeftRadius:20,borderTopRightRadius:20,}}>
           <Pressable android_ripple={{ color: "#c4c4c4", radius: 240, borderless: false }} onPress={() =>console.log("Presse")} >
@@ -175,7 +192,7 @@ const coinValidation=()=>{
         </View>
       </ActionSheet>
 
-    </View>
+      </View>
   );
 }
 
