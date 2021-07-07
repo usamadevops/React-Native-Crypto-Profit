@@ -12,26 +12,50 @@ function SetResult({ navigation, route }) {
   const ProfitView = () => {
     return (
  
-        <View style={{width:350,height:70,backgroundColor:Color.Secondary,flexDirection:"row",alignItems:"center",borderWidth:2,borderRadius:15,marginVertical:10,paddingLeft:10}}>
-          <Icon name="waterfall-chart" size={30} color="#2AEB60" />
+        <View style={{width:370,height:70,backgroundColor:Color.Secondary,flexDirection:"row",alignItems:"center",borderWidth:2,borderRadius:10,marginVertical:5,paddingHorizontal:10}}>
+       <View style={{flex:1,flexDirection:"row"}}>
+       <Icon name="waterfall-chart" size={30} color="#2AEB60" />
           <Text style={styles.Text2}>Profit You'll Have</Text>
+         </View>   
+         <View>
+{ProfitExpanded===false?
       <Icon name="keyboard-arrow-down"  size={30} color="#2AEB60" />
+      :
+      <Icon name="keyboard-arrow-up"  size={30} color="#2AEB60" />
+}
+         </View>
       </View>
     );
   }
   const LossView = () => {
     return (
  
-        <View style={{width:350,height:70,backgroundColor:Color.Secondary,flexDirection:"row",alignItems:"center",borderWidth:2,borderRadius:15,marginVertical:10,paddingLeft:10}}>
-          <Icon name="waterfall-chart" size={30} color="#FA7D7D" />
+        <View style={{width:370,height:70,backgroundColor:Color.Secondary,flexDirection:"row",alignItems:"center",borderWidth:2,borderRadius:10,marginVertical:5,paddingHorizontal:10}}>
+        <View  style={{flex:1,flexDirection:"row"}}>
+        <Icon name="waterfall-chart" size={30} color="#FA7D7D" />
           <Text style={styles.Text2}>Loss You'll Have</Text>
-      
+          </View>  
+          <View>
+{LossExpanded===false?
+      <Icon name="keyboard-arrow-down" size={30} color="#FA7D7D"/>
+      :
+      <Icon name="keyboard-arrow-up" size={30} color="#FA7D7D"/>
+}
+          </View>
       </View>
     );
   }
   const onExpandProfit = () => {
-    if (ProfitExpanded=== false) {
-      setProfitExpanded(true)
+    if (ProfitExpanded=== false ) {
+      if(LossExpanded===true)
+      {
+        setLossExpanded(false)
+        setProfitExpanded(true)
+      }
+      else 
+      {
+        setProfitExpanded(true)
+      }
     }
     else
     {
@@ -40,7 +64,15 @@ function SetResult({ navigation, route }) {
   }
   const onExpandLoss = () => {
     if (LossExpanded=== false) {
-      setLossExpanded(true)
+      if(ProfitExpanded===true)
+      {
+        setProfitExpanded(false)
+        setLossExpanded(true)
+      }
+      else 
+      {
+        setLossExpanded(true)
+      }
     }
     else
     {

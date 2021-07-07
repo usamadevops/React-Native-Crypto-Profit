@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
             fontFamily: Font.Font.Medium,
             fontSize: 16,
             color: Color.Primary,
-            width: ('100%'),
+     
             paddingLeft:10
       },
       Text3: {
@@ -82,22 +82,22 @@ const styles = StyleSheet.create({
             alignItems: "center"
       },
       ResultBox:{
-      backgroundColor:"#fff",
+      backgroundColor:Color.Primary,
       minWidth:("80%"),
       minHeight:('23%'),
-      borderWidth:1,
-      borderColor:"#fff1fd",
+      borderWidth:0.5,
+      borderColor:Color.Secondary,
       elevation:2,
-      borderRadius:20,
+      borderRadius:10,
       flexDirection:"row",
       justifyContent:"center",
       alignItems:"center",
-      marginVertical:40,
+      marginVertical:10,
       },
       ResultTextBig:{
             textAlign:"center",
             fontFamily:Font.Font.Book,
-            fontSize:64
+            fontSize:78
       },
       ResultTextSmall:{
             textAlign:"center",

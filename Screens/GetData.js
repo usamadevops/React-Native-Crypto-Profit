@@ -18,7 +18,7 @@ const GetData = ({navigation}) => {
   const [mode, setMode] = useState('date');
   const [show1, setShow1] = useState(false);
   const [show2, setShow2] = useState(false);
-  const [Price, setPrice] = useState(' ')
+  const [Price, setPrice] = useState('  ')
   
 // const fetch=async()=>{
 //   const options = {
@@ -40,11 +40,21 @@ const GetData = ({navigation}) => {
 const Calculate=()=>{
 
   var Result;
-  Result=Price*Coins;
-  console.log(Result)
-  setCoins(0)
-  setPrice('')
-  navigation.navigate("SetResult",{Result})
+var TimeDifference=date2.getTime() -date1.getTime();
+var DateDifference=(TimeDifference / (1000 * 3600 * 24)).toFixed(0);
+console.log(DateDifference)
+  if(Price===0 || Price===null & Coins<1 || Coins===0 )
+  {
+    alert("You haven't added values yet")
+  }
+  else{
+
+    Result=Price*Coins;
+    console.log(Result)
+    setCoins(0)
+    setPrice('')
+    navigation.navigate("SetResult",{Result})
+  }
 }
 
   const onChange = (event, selectedDate) => {
