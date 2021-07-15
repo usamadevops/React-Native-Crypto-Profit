@@ -2,7 +2,7 @@
 import React, { useState,createRef,useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Icon2 from 'react-native-vector-icons/FontAwesome';
-import { Text, View, Image, Pressable, TextInput ,StatusBar} from 'react-native';
+import { Text, View, ScrollView, Pressable, TextInput ,StatusBar} from 'react-native';
 import styles from '../Styles'
 import ActionSheet from "react-native-actions-sheet";
 import axios from "axios";
@@ -18,24 +18,41 @@ const GetData = ({navigation}) => {
   const [mode, setMode] = useState('date');
   const [show1, setShow1] = useState(false);
   const [show2, setShow2] = useState(false);
-  const [Price, setPrice] = useState('  ')
+  const [Price, setPrice] = useState('')
+  const [data,setdata]=useState([]);
+
+
+  const fetchandShow=()=>{
+   
+ 
+  }
+
+useEffect(() => {
+
+ var options = {
+  method: 'GET',
+  url: 'https://coingecko.p.rapidapi.com/coins/list',
+  headers: {
+    'x-rapidapi-key': '486bcdbfc4mshacb170ead8f4fa9p1b0c32jsnc074f6e983ba',
+    'x-rapidapi-host': 'coingecko.p.rapidapi.com'
+  }
+};
+axios.request(options).then(function (response) {
+ 
+
+  let tmpArray = []
+  for (var i = 0; i <response.data.length; i++) {
+      tmpArray.push(response.data[i].name)
+  }
+
+  setdata(tmpArray)
+  console.log(data)
+}).catch(function (error) {
+  console.error(error);
+});
+}, [])
+ 
   
-// const fetch=async()=>{
-//   const options = {
-//     method: 'GET',
-//     url: 'https://coingecko.p.rapidapi.com/coins/list',
-//     headers: {'x-rapidapi-host': 'coingecko.p.rapidapi.com'}
-//   };
-  
-//   await axios.request(options).then(function (response) {
-//     console.log(response.data);
-//   }).catch(function (error) {
-//     console.error(error);
-//   });
-// }
-//   useEffect (() => {
-// fetch();
-//   }, [])
   
 const Calculate=()=>{
 
@@ -103,7 +120,7 @@ const coinValidation=()=>{
       
       <View style={styles.container__Inside2}>
         <Text style={styles.Text3}>Select CryptoCurrency</Text>
-        <Pressable android_ripple={{ color: "#7C7C83", radius: 200, borderless: false }} style={styles.boxes} onPress={() => actionSheetRef.current?.show()}>
+        <Pressable android_ripple={{ color: "#7C7C83", radius: 200, borderless: false }} style={styles.boxes} onPress={() =>    actionSheetRef.current?.show()}>
           <View style={styles.Inside__Box}>
           <Icon name="coins" size={24} color="#fff" style={{marginRight:7}}  />
             <Text style={styles.Text}>Select CryptoCurrency</Text>
@@ -185,12 +202,15 @@ const coinValidation=()=>{
       </View>
 
       <ActionSheet ref={actionSheetRef} gestureEnabled={true} containerStyle={{borderTopLeftRadius:20,borderTopRightRadius:20}}>
-        <View style={{height:500,backgroundColor:Color.Primary,borderTopLeftRadius:20,borderTopRightRadius:20,}}>
-          <Pressable android_ripple={{ color: "#c4c4c4", radius: 240, borderless: false }} onPress={() =>console.log("Presse")} >
-          <View style={{flexDirection:"row",alignItems:"center" ,justifyContent:"space-between",paddingHorizontal:20,paddingVertical:10}}>
+        <ScrollView  style={{height:500,backgroundColor:Color.Primary,borderTopLeftRadius:20,borderTopRightRadius:20,}}>
+          {data.map(({data,index})=>{
+        
+            
+          <Pressable key={index} android_ripple={{ color: "#c4c4c4", radius: 240, borderless: false }} onPress={() =>console.log("Presse")} >
+          <View  style={{flexDirection:"row",alignItems:"center" ,justifyContent:"space-between",paddingHorizontal:20,paddingVertical:10}}>
          <View style={{flexDirection:"row",alignItems:"center",}}>
          <Icon name="bitcoin" size={36} color={Color.Secondary} style={{marginLeft:7}}/>
-         <Text style={styles.Text3}>Bitcoin</Text>
+         <Text style={styles.Text3}>{data}</Text>
          </View>
          <View>
            <Text style={styles.Text3}>
@@ -199,7 +219,10 @@ const coinValidation=()=>{
          </View>
          </View>
          </Pressable>
-        </View>
+          }
+          )
+        }
+        </ScrollView>
       </ActionSheet>
 
       </View>
