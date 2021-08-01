@@ -11,81 +11,75 @@ function SetResult({ navigation, route }) {
   const [LossExpanded, setLossExpanded] = useState(false);
   const ProfitView = () => {
     return (
- 
-        <View style={{width:370,height:70,backgroundColor:Color.Secondary,flexDirection:"row",alignItems:"center",borderWidth:2,borderRadius:10,marginVertical:5,paddingHorizontal:10}}>
-       <View style={{flex:1,flexDirection:"row"}}>
-       <Icon name="waterfall-chart" size={30} color="#2AEB60" />
+
+      <View style={{ width: 390, height: 70, backgroundColor: Color.Secondary, flexDirection: "row", alignItems: "center", borderWidth: 2, borderRadius: 10, marginVertical: 5, paddingHorizontal: 10 }}>
+        <View style={{ flex: 1, flexDirection: "row" }}>
+          <Icon name="waterfall-chart" size={30} color="#2AEB60" />
           <Text style={styles.Text2}>Profit You'll Have</Text>
-         </View>   
-         <View>
-{ProfitExpanded===false?
-      <Icon name="keyboard-arrow-down"  size={30} color="#2AEB60" />
-      :
-      <Icon name="keyboard-arrow-up"  size={30} color="#2AEB60" />
-}
-         </View>
+        </View>
+        <View>
+          {ProfitExpanded === false ?
+            <Icon name="keyboard-arrow-down" size={30} color="#2AEB60" />
+            :
+            <Icon name="keyboard-arrow-up" size={30} color="#2AEB60" />
+          }
+        </View>
       </View>
     );
   }
   const LossView = () => {
     return (
- 
-        <View style={{width:370,height:70,backgroundColor:Color.Secondary,flexDirection:"row",alignItems:"center",borderWidth:2,borderRadius:10,marginVertical:5,paddingHorizontal:10}}>
-        <View  style={{flex:1,flexDirection:"row"}}>
-        <Icon name="waterfall-chart" size={30} color="#FA7D7D" />
+
+      <View style={{ width: 390, height: 70, backgroundColor: Color.Secondary, flexDirection: "row", alignItems: "center", borderWidth: 2, borderRadius: 10, marginVertical: 5, paddingHorizontal: 10 }}>
+        <View style={{ flex: 1, flexDirection: "row" }}>
+          <Icon name="waterfall-chart" size={30} color="#FA7D7D" />
           <Text style={styles.Text2}>Loss You'll Have</Text>
-          </View>  
-          <View>
-{LossExpanded===false?
-      <Icon name="keyboard-arrow-down" size={30} color="#FA7D7D"/>
-      :
-      <Icon name="keyboard-arrow-up" size={30} color="#FA7D7D"/>
-}
-          </View>
+        </View>
+        <View>
+          {LossExpanded === false ?
+            <Icon name="keyboard-arrow-down" size={30} color="#FA7D7D" />
+            :
+            <Icon name="keyboard-arrow-up" size={30} color="#FA7D7D" />
+          }
+        </View>
       </View>
     );
   }
   const onExpandProfit = () => {
-    if (ProfitExpanded=== false ) {
-      if(LossExpanded===true)
-      {
+    if (ProfitExpanded === false) {
+      if (LossExpanded === true) {
         setLossExpanded(false)
         setProfitExpanded(true)
       }
-      else 
-      {
+      else {
         setProfitExpanded(true)
       }
     }
-    else
-    {
+    else {
       setProfitExpanded(false)
     }
   }
   const onExpandLoss = () => {
-    if (LossExpanded=== false) {
-      if(ProfitExpanded===true)
-      {
+    if (LossExpanded === false) {
+      if (ProfitExpanded === true) {
         setProfitExpanded(false)
         setLossExpanded(true)
       }
-      else 
-      {
+      else {
         setLossExpanded(true)
       }
     }
-    else
-    {
+    else {
       setLossExpanded(false)
     }
   }
   const ResultView = () => {
     return (
       <View style={styles.ResultBox}>
-   
-          <Text style={styles.ResultTextBig}>{Result}</Text>
-          <Text style={styles.ResultTextSmall}>USD</Text>
-   
+
+        <Text style={styles.ResultTextBig}>{Result}</Text>
+        <Text style={styles.ResultTextSmall}>USD</Text>
+
       </View>
     );
   }
@@ -100,7 +94,7 @@ function SetResult({ navigation, route }) {
       </View>
 
       <View style={styles.container__Inside2}>
-      <ExpandableSection
+        <ExpandableSection
           onPress={() => onExpandProfit()}
           expanded={ProfitExpanded}
           sectionHeader={ProfitView()}
@@ -108,6 +102,7 @@ function SetResult({ navigation, route }) {
           {ResultView()}
         </ExpandableSection>
         <ExpandableSection
+
           onPress={() => onExpandLoss()}
           expanded={LossExpanded}
           sectionHeader={LossView()}
