@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { useState, createRef, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Icon2 from 'react-native-vector-icons/FontAwesome';
@@ -35,6 +36,14 @@ const GetData = ({ navigation }) => {
   const [SelectedCurrency, setSelectedCurrency] = useState(
     'Select Cryptocurrency',
   );
+  const TodayDate = new Date();
+  const MinDateToSell = TodayDate.getHours() + 24;
+  const MinDateToBuy=new Date().setFullYear(2010, 11, 3)
+  const MaxDateToSell = new Date().setFullYear(2040, 11, 3);
+  const x = new moment(date1);
+  const y = new moment(date2);
+  const Days = moment.duration(y.diff(x));
+  const Selling = moment.duration(y.diff(TodayDate));
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -78,9 +87,9 @@ const GetData = ({ navigation }) => {
 
   const Calculate = () => {
     var Result;
-    var TimeDifference = date2.getTime() - date1.getTime();
-    var DateDifference = (TimeDifference / (1000 * 3600 * 24)).toFixed(0);
-    console.log(DateDifference);
+    // var TimeDifference = date2.getTime() - date1.getTime();
+    // var DateDifference = (TimeDifference / (1000 * 3600 * 24)).toFixed(0);
+    console.log(Days);
     if (Price === 0 || (Price === null) & (Coins < 1) || Coins === 0) {
       alert("You haven't added values yet");
     } else {
@@ -94,13 +103,14 @@ const GetData = ({ navigation }) => {
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date1;
-    setShow1(Platform.OS === 'ios');
-    setDate1(currentDate);
+    setShow1(Platform.OS === 'ios'); 
+      setDate1(currentDate);
   };
   const onChange1 = (event, selectedDate2) => {
-    const currentDate = selectedDate2 || date2;
+    const currentDate = selectedDate2 || date2 ;
     setShow2(Platform.OS === 'ios');
-    setDate2(currentDate);
+    if(date2<TodayDate)
+    {setDate2(currentDate);}
   };
   const showMode1 = currentMode => {
     setShow1(true);
@@ -181,34 +191,46 @@ const GetData = ({ navigation }) => {
             </Pressable>
           </View>
         </View>
-        <Text style={styles.Text3}>When you Bought the Coins?</Text>
+        <View style={{flexDirection:'row',alignSelf:'flex-start',justifyContent:'space-between'}}>
+        <Text style={styles.Text3}>You Bought the Coins?</Text>
+        <Text style={styles.Text3}>{Days.asDays().toFixed(0)} Days Ago</Text>
+
+        </View>
         <Pressable style={styles.boxes} onPress={showDatepicker1}>
           <View style={styles.Inside__Box}>
             <Text style={styles.Text}>
-              {date1.getDate()}-{date1.getMonth()}-{date1.getFullYear()}
+            {moment(date1).format('LL')}
             </Text>
             {show1 && (
               <RNDateTimePicker
                 testID="dateTimePicker"
                 value={date1}
                 mode={mode}
+                minimumDate={MinDateToBuy}
+                maximumDate={TodayDate}
                 is24Hour={true}
                 display="default"
                 onChange={onChange}
               />
             )}
+
           </View>
         </Pressable>
-        <Text style={styles.Text3}>When are you selling the Coins?</Text>
+        <View style={{flexDirection:'row',alignSelf:'flex-start',justifyContent:'space-between'}}>
+        <Text style={styles.Text3}>You are selling the Coins?</Text>
+        <Text style={styles.Text3}>After {Selling.asDays().toFixed(0)} Days</Text>
+        </View>
         <Pressable style={styles.boxes} onPress={showDatepicker2}>
           <View style={styles.Inside__Box}>
             <Text style={styles.Text}>
-              {date2.getDate()}-{date2.getMonth()}-{date2.getFullYear()}
+            {moment(date2).format('LL')}
             </Text>
             {show2 && (
               <RNDateTimePicker
                 testID="dateTimePicker"
                 value={date2}
+                minimumDate={TodayDate}
+                maximumDate={MaxDateToSell}
                 mode={mode}
                 is24Hour={true}
                 display="default"
@@ -246,13 +268,14 @@ const GetData = ({ navigation }) => {
         ref={actionSheetRef}
         containerStyle={{
           height: 500,
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
+          // borderTopLeftRadius: 20,
+          // borderTopRightRadius: 20,
         }}
-        animated={true}
+        // animated={true}
+        headerAlwaysVisible={true}
         openAnimationSpeed={1000}
         closeAnimationDuration={500}
-        gestureEnabled={true}
+        // gestureEnabled={true}
         nestedScrollEnabled={true}>
         <CryptoData selected={setSelectedCurrency} closeModal={CloseSheet} Data={Data} />
       </ActionSheet>
