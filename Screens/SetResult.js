@@ -113,6 +113,7 @@ function SetResult({navigation, route}) {
           {ResultView()}
         </ExpandableSection>
         <ExpandableSection
+
           onPress={() => onExpandLoss()}
           expanded={LossExpanded}
           sectionHeader={LossView()}>
